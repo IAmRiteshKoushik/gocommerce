@@ -2,7 +2,7 @@ package main
 
 import(
   controller "github.com/IAmRiteshKoushik/gocommerce/controllers"
-  database "github.com/IAmRiteshKoushik/gocommerce/database"
+  db "github.com/IAmRiteshKoushik/gocommerce/database"
   middleware "github.com/IAmRiteshKoushik/gocommerce/middleware"
   routes "github.com/IAmRiteshKoushik/gocommerce/routes"
 
@@ -18,7 +18,7 @@ func main() {
     port = "8000"
   }
 
-  app := controller.NewApplication(database.ProductData(database.Client, "Products"), database.UserData(database.Client, "Users"))
+  app := controller.NewApplication(db.ProductData(db.Client, "Products"), db.UserData(db.Client, "Users"))
 
   router := gin.New()
   router.Use(gin.Logger())
