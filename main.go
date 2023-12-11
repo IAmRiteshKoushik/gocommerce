@@ -1,36 +1,36 @@
 package main
 
-import(
-  controller "github.com/IAmRiteshKoushik/gocommerce/controllers"
-  db "github.com/IAmRiteshKoushik/gocommerce/database"
-  middleware "github.com/IAmRiteshKoushik/gocommerce/middleware"
-  routes "github.com/IAmRiteshKoushik/gocommerce/routes"
+import (
+	controller "github.com/IAmRiteshKoushik/gocommerce/controllers"
+	db "github.com/IAmRiteshKoushik/gocommerce/database"
+	middleware "github.com/IAmRiteshKoushik/gocommerce/middleware"
+	routes "github.com/IAmRiteshKoushik/gocommerce/routes"
 
-  "github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin"
 
-  "os"
-  "log"
+	"log"
+	"os"
 )
 
 func main() {
-  port := os.Getenv("PORT")
-  if port == "" {
-    port = "8000"
-  }
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8000"
+	}
 
-  app := controller.NewApplication(db.ProductData(db.Client, "Products"), db.UserData(db.Client, "Users"))
+	app := controller.NewApplication(db.ProductData(db.Client, "Products"), db.UserData(db.Client, "Users"))
 
-  router := gin.New()
-  router.Use(gin.Logger())
+	router := gin.New()
+	router.Use(gin.Logger())
 
-  routes.UserRoutes(router)
-  router.Use(middleware.Authentication())
+	routes.UserRoutes(router)
+	router.Use(middleware.Authentication())
 
-  // Other routes
-  router.GET("/addtocart", app.AddToCart())
-  router.GET("/removeitem", app.Removeitem())
-  router.GET("/cartcheckout", app.BuyFromCart())
-  router.GET("/instantbuy", app.InstantBuy())
+	// Other routes
+	router.GET("/addtocart", app.AddToCart())
+	router.GET("/removeitem", app.RemoveItem())
+	router.GET("/cartcheckout", app.BuyFromCart())
+	router.GET("/instantbuy", app.InstantBuy())
 
-  log.Fatal(router.Run(":" + port))
+	log.Fatal(router.Run(":" + port))
 }
